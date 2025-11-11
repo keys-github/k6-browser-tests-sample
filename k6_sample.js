@@ -1,6 +1,6 @@
 import { chromium } from 'k6/experimental/browser';
 import { expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js';
-import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+
 
 // Configure the options as required. Docs: https://k6.io/docs/using-k6/k6-options/reference/
 export const options = {
@@ -41,6 +41,7 @@ export default async function () {
   const wsURL = `wss://cdp.lambdatest.com/k6?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
   const browser = chromium.connect(wsURL);
 
+
   const page = browser.newPage();
 
   try {
@@ -72,9 +73,3 @@ async function teardown(page, browser) {
   await browser.close();
 }
 
-// Save the test reports
-export function handleSummary(data) {
-  return {
-    'reports/TestSummaryReport.html': htmlReport(data, { debug: true })
-  };
-}
